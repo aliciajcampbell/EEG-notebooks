@@ -1,4 +1,4 @@
-This is an EEG pipeline for resting and task EEG pre-processing and analyses used at the UniSC's Thompson Institute created by Toomas Erik Anijärv and Alicia J. Campbell
+This is an EEG pipeline for resting and task EEG pre-processing and analyses used at the UniSC's Thompson Institute intitally created by [Toomas Erik Anijärv](https://github.com/teanijarv) and now maintained and updated Alicia J. Campbell
 
 The main aim for creating this pipeline was to make EEG analysis in Python easier for other researchers who are not too familiar with programming but also do not want to use other commercial blackbox-style software. Using ready-made Jupyter notebooks, it is easy to get started with EEG data pre-processing, spectral analysis, and ERP analysis. 
 
@@ -43,6 +43,8 @@ Find in folder `/templates`. Different notebooks for using as templates for your
 ### TO-DO
 - Other time-domain waveform analysis etc (e.g., using bycycle package)
 - Restructure the project and maybe turn into a package (DM if you could help!)
+- Once a package/functions, enable parallel processing
+- Make object oriented
 
 
 ## Study notebooks
@@ -54,7 +56,7 @@ Find in folder `/studies`. Different studies/publications that have used this pi
 ## Requirements
 The data processing and analysis is tested with Biosemi 32-channel EEG set. I recommend to create a [conda environment](https://www.anaconda.com/distribution/) with all the dependencies using the environment.yml file in this repository. However, down below you can see all the required libraries across parts of the pipeline in case you want to use only a specific notebook.
 
-`conda env create -n EEG-pyline -f environment.yml`
+`conda env create -n eeg-notebooks -f environment.yml`
 
 If you want to install all the necessary packages separately then these four installs will cover all the packages.
 
