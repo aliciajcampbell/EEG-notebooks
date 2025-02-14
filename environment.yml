@@ -1,4 +1,4 @@
-name: eeg-pipeline
+name: eeg-notebooks
 channels:
   - conda-forge
   - defaults
@@ -175,4 +175,3 @@ dependencies:
   - zstd=1.5.2=h6255e5f_1
   - pip:
     - statannotations==0.4.4
-prefix: C:\Users\TANIJARV\Anaconda3\envs\eeg-pipeline
