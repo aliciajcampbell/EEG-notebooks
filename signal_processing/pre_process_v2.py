@@ -4,7 +4,7 @@ from autoreject import (get_rejection_threshold, AutoReject)
 import matplotlib.pyplot as plt
 
 # ========== Functions ==========
-def filter_raw_data(raw, filter_design, line_remove=None, other_ch=None,
+def filter_raw_data(raw, filter_design, line_remove=None, eog_channels=None, drop_external_channels=None,
                     plot_filt=False, savefig=False, verbose=False):
     """
     Apply FIR bandpass filter and remove EOG noise.
@@ -44,30 +44,15 @@ def filter_raw_data(raw, filter_design, line_remove=None, other_ch=None,
         if verbose==True: print('---\nAPPLYING NOTCH FILTER\n')
         filt = filt.notch_filter([line_remove])
 
-    if other_ch != None:
+    if eog_channels != None or eog_channels != False:
         if verbose==True: print('---\nAPPLYING SSP FOR EOG-REMOVAL\n')
-        heog_projs, _ = mne.preprocessing.compute_proj_eog(
-            filt, n_grad=0, n_mag=0, n_eeg=1, reject=None, no_proj=True, ch_name=other_ch['heog'], verbose=verbose
-        )
-        veog_projs, _ = mne.preprocessing.compute_proj_eog(
-            filt, n_grad=0, n_mag=0, n_eeg=1, reject=None, no_proj=True, ch_name=other_ch['veog'], verbose=verbose
-        )
-
-        # mne.viz.plot_projs_topomap(
-        #     heog_projs, colorbar=True, vlim="joint", info=filt.info
-        # )
-        # plt.show()
-
-        # mne.viz.plot_projs_topomap(
-        #     veog_projs, colorbar=True, vlim="joint", info=filt.info
-        # )
-        # plt.show()
-
-        # Combine projectors and apply
-        filt.add_proj(heog_projs + veog_projs, remove_existing=True)
+        eog_projs, _ = mne.preprocessing.compute_proj_eog(filt,n_grad=0,n_mag=0,n_eeg=2,reject=None,
+                                                            no_proj=True,ch_name=eog_channels, verbose=verbose)
+        filt.add_proj(eog_projs,remove_existing=True)
         filt.apply_proj()
-        filt.drop_channels(other_ch['mastoid']+other_ch['heog']+other_ch['veog']+other_ch['misc'])
-
+    
+    if drop_external_channels is not None:
+        filt.drop_channels(drop_external_channels)
 
     return filt
 
